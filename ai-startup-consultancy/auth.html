@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | test-yan-22 - AI Startup Consultancy</title>
+    <meta name="description" content="Join test-yan-22, the premier AI startup consultancy to launch, hire, and scale your AI products fast.">
+    
+    <!-- Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
+
+        :root {
+            --color-primary: #7C3AED; /* Electric Violet */
+            --color-primary-dark: #5B21B6;
+            --color-background: #09090B;
+            --color-surface: #18181B;
+            --color-text: #FFFFFF;
+            --color-text-muted: #A1A1AA;
+            --color-border: #27272A;
+            --color-accent: #22D3EE; /* Neon Cyan */
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --radius-xl: 2rem;
+            --radius-pill: 9999px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        /* Navigation */
+        header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-accent);
+        }
+
+        .cta-pill {
+            background-color: var(--color-text);
+            color: var(--color-background);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-pill);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .cta-pill:hover {
+            background-color: var(--color-accent);
+            transform: translateY(-2px);
+        }
+
+        /* Main Auth Layout */
+        main {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 1rem 4rem;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: 3rem 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .auth-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-top: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        /* Tab System */
+        .tab-nav {
+            display: flex;
+            background-color: var(--color-background);
+            padding: 0.4rem;
+            border-radius: var(--radius-pill);
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--color-text-muted);
+            padding: 0.8rem;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: var(--radius-pill);
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            background-color: var(--color-surface);
+            color: var(--color-text);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Forms */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            padding-left: 0.5rem;
+        }
+
+        input {
+            background-color: var(--color-background);
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+        }
+
+        .submit-btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 1.1rem;
+            border-radius: var(--radius-pill);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--color-primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--color-border);
+            background-color: var(--color-background);
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .footer-brand p {
+            color: var(--color-text-muted);
+            margin-top: 1rem;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            color: var(--color-accent);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--color-text-muted);
+        }
+
+        .footer-links a:hover {
+            color: var(--color-text);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--color-surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid var(--color-border);
+        }
+
+        .social-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--color-text-muted);
+        }
+
+        .copyright {
+            max-width: 1200px;
+            margin: 4rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+
+            .auth-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .auth-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+  <base href="/ai-startup-consultancy/" />
+</head>
+<body>
+
+    <header>
+        <a href="index.html">
+            <span style="font-weight:700;font-size:1.25rem">test-yan-22</span>
+        </a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="auth.html" class="cta-pill">Sign In</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <div class="auth-header">
+                <span style="font-weight:700;font-size:1.5rem;color:var(--color-accent)">test-yan-22</span>
+                <h1>Welcome back</h1>
+            </div>
+
+            <div class="tab-nav">
+                <button class="tab-btn" onclick="switchTab('signin')">Sign In</button>
+                <button class="tab-btn active" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- Sign Up Tab -->
+            <div id="signup-tab" class="tab-content active">
+                <form data-backend="signup">
+                    <input type="hidden" name="role" value="user">
+                    
+                    <div class="form-group">
+                        <label for="reg-email">Work Email</label>
+                        <input type="email" id="reg-email" name="email" placeholder="name@company.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <input type="password" id="reg-password" name="password" placeholder="••••••••" minlength="6" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Create Account</button>
+                    
+                    <p data-success style="display:none; color: var(--color-accent); font-weight: bold; margin-top: 1rem; text-align: center;">
+                        Registration successful! Please login.
+                    </p>
+                </form>
+            </div>
+
+            <!-- Sign In Tab -->
+            <div id="signin-tab" class="tab-content">
+                <form onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" name="email" placeholder="name@company.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Sign In</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span style="font-weight:700;font-size:1.25rem">test-yan-22</span>
+                <p>Strategic consultancy for AI startups. Narrowing focus, defining GTM, and scaling operations for the future of intelligence.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><svg viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
+                    <a href="#" class="social-icon"><svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="auth.html">Sign In</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="mailto:hello@tes.test">Contact Support</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2026 test-yan-22. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching logic
+        function switchTab(tab) {
+            const signupTab = document.getElementById('signup-tab');
+            const signinTab = document.getElementById('signin-tab');
+            const buttons = document.querySelectorAll('.tab-btn');
+
+            if (tab === 'signup') {
+                signupTab.classList.add('active');
+                signinTab.classList.remove('active');
+                buttons[1].classList.add('active');
+                buttons[0].classList.remove('active');
+            } else {
+                signupTab.classList.remove('active');
+                signinTab.classList.add('active');
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            }
+        }
+
+        // Auto-switch tab after success logic
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.style.display === 'block') {
+                    setTimeout(() => {
+                        switchTab('signin');
+                    }, 2000);
+                }
+            });
+        });
+
+        const successMsg = document.querySelector('[data-success]');
+        if (successMsg) {
+            observer.observe(successMsg, { attributes: true, attributeFilter: ['style'] });
+        }
+    </script>
+
+    <script>
+    (function() {
+      var BACKEND = 'http://localhost:3000/api';
+      var TOKEN = 'a974ef3e22262fa8133cc84d7c5c1e224bcc1bc8ed81a1ef3a32c18cdfeae779';
+      var DOMAIN = 'aistartupconsultancy.com';
+      var HEADERS = { 'Content-Type': 'application/json', 'X-Token': TOKEN, 'X-Domain': DOMAIN };
+
+      // 3. Handle signup only
+      document.addEventListener('submit', function(e) {
+        var form = e.target.closest('form[data-backend="signup"]');
+        if (!form) return;
+        e.preventDefault();
+        
+        var data = {};
+        new FormData(form).forEach(function(v, k) { data[k] = v; });
+
+        var btn = form.querySelector('button[type="submit"]');
+        var originalText = '';
+        if (btn) {
+          originalText = btn.innerText;
+          btn.innerText = 'Sending...';
+          btn.disabled = true;
+        }
+
+
+        fetch(BACKEND + '/users', {
+          method: 'POST',
+          headers: HEADERS,
+          body: JSON.stringify(data)
+        }).then(function(r) { return r.json(); }).then(function(res) {
+          if (res.success) {
+            var msg = form.querySelector('[data-success]');
+            if (msg) { msg.style.display = 'block'; }
+            form.reset();
+            if (btn) btn.style.display = 'none';
+          } else {
+            alert(res.error || 'Failed to sign up');
+            if (btn) { btn.innerText = originalText; btn.disabled = false; }
+          }
+        }).catch(function(){
+          alert('Network error occurred');
+          if (btn) { btn.innerText = originalText; btn.disabled = false; }
+        });
+      });
+    })();
+    </script>
+</body>
+</html>
