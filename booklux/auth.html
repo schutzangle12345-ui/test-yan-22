@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | test-yan-22 - Luxury AI Concierge</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --color-primary: #ffffff;
+            --color-primary-dark: #f0f0f0;
+            --color-background: #0a0a0a;
+            --color-surface: #141414;
+            --color-text: #f5f5f5;
+            --color-text-muted: #888888;
+            --color-border: #262626;
+            --color-accent: #c5a059;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--color-background);
+            color: var(--color-text);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--color-primary);
+            line-height: 1.1;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text);
+        }
+
+        .btn-cta {
+            background: var(--color-primary);
+            color: var(--color-background);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-cta:hover {
+            background: var(--color-primary-dark);
+            opacity: 1;
+        }
+
+        /* Auth Layout */
+        main {
+            padding: 160px 20px 120px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 2.5rem;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-text {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+        }
+
+        /* Tabs */
+        .tab-system {
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            padding: 1rem;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .tab-btn.active {
+            color: var(--color-primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--color-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+            font-weight: 600;
+        }
+
+        input {
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            padding: 0.75rem 1rem;
+            color: var(--color-text);
+            border-radius: 6px;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--color-text-muted);
+        }
+
+        .btn-submit {
+            background: var(--color-primary);
+            color: var(--color-background);
+            border: none;
+            padding: 0.875rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: transform 0.1s ease;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--color-border);
+            padding: 80px 2rem 40px;
+            background: var(--color-background);
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .footer-brand p {
+            color: var(--color-text-muted);
+            max-width: 300px;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .footer-nav h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            color: var(--color-text-muted);
+        }
+
+        .footer-nav ul {
+            list-style: none;
+        }
+
+        .footer-nav ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-nav ul li a {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+        }
+
+        .footer-nav ul li a:hover {
+            color: var(--color-text);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-icons svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            nav {
+                padding: 1rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            main {
+                padding: 120px 1rem 80px;
+            }
+            .auth-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+  <base href="/booklux/" />
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <span style="font-weight:700;font-size:1.25rem">test-yan-22</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="auth.html" class="btn-cta">Sign In</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="auth-container">
+            <div class="auth-header">
+                <span class="logo-text" style="font-weight:700;font-size:1.5rem">test-yan-22</span>
+                <p style="color: var(--color-text-muted); font-size: 0.875rem;">Access your luxury concierge portal</p>
+            </div>
+
+            <div class="tab-system">
+                <div class="tabs">
+                    <button class="tab-btn" onclick="switchTab('signin')">Sign In</button>
+                    <button class="tab-btn active" id="signup-tab-btn" onclick="switchTab('signup')">Sign Up</button>
+                </div>
+
+                <!-- SIGN UP TAB -->
+                <div id="signup-content" class="tab-content active">
+                    <form data-backend="signup">
+                        <input type="hidden" name="role" value="user">
+                        
+                        <div class="form-group">
+                            <label for="signup-email">Email Address</label>
+                            <input type="email" id="signup-email" name="email" placeholder="name@company.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" name="password" minlength="6" placeholder="Min. 6 characters" required>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Create Account</button>
+                        
+                        <p data-success class="success-message" style="display:none; color: #4ade80; font-weight: 600; margin-top: 1rem; font-size: 0.875rem;">
+                            Registration successful! Redirecting to login...
+                        </p>
+                    </form>
+                </div>
+
+                <!-- SIGN IN TAB -->
+                <div id="signin-content" class="tab-content">
+                    <form onsubmit="event.preventDefault(); alert('Sign In UI placeholder only.');">
+                        <div class="form-group">
+                            <label for="signin-email">Email Address</label>
+                            <input type="email" id="signin-email" placeholder="name@company.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signin-password">Password</label>
+                            <input type="password" id="signin-password" placeholder="••••••••" required>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Sign In</button>
+                        <p style="text-align: center; margin-top: 1rem;">
+                            <a href="#" style="font-size: 0.75rem; color: var(--color-text-muted);">Forgot your password?</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <span style="font-weight:700;font-size:1.25rem">test-yan-22</span>
+                <p>The premier AI concierge for global luxury services. Streamlining travel and lifestyle management for the world's most discerning clients.</p>
+            </div>
+            <div class="footer-nav">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="auth.html">Sign In</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav">
+                <h4>Inquiries</h4>
+                <ul>
+                    <li><a href="mailto:concierge@booklux.ai">concierge@booklux.ai</a></li>
+                    <li><a href="#">Support Center</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>&copy; 2026 test-yan-22. All rights reserved.</div>
+            <div class="social-icons">
+                <a href="#"><svg viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(tab) {
+            const signupContent = document.getElementById('signup-content');
+            const signinContent = document.getElementById('signin-content');
+            const signupBtn = document.getElementById('signup-tab-btn');
+            const signinBtn = document.querySelector('.tab-btn:not(#signup-tab-btn)');
+
+            if (tab === 'signup') {
+                signupContent.classList.add('active');
+                signinContent.classList.remove('active');
+                signupBtn.classList.add('active');
+                signinBtn.classList.remove('active');
+            } else {
+                signupContent.classList.remove('active');
+                signinContent.classList.add('active');
+                signupBtn.classList.remove('active');
+                signinBtn.classList.add('active');
+            }
+        }
+
+        // Mutation observer to watch for the success message to auto-switch tabs
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.style.display === 'block') {
+                    setTimeout(() => {
+                        switchTab('signin');
+                    }, 2000);
+                }
+            });
+        });
+
+        const successMsg = document.querySelector('[data-success]');
+        if (successMsg) {
+            observer.observe(successMsg, { attributes: true, attributeFilter: ['style'] });
+        }
+    </script>
+
+    <script>
+    (function() {
+      var BACKEND = 'http://localhost:3000/api';
+      var TOKEN = '8155733f377f05684df4add3a9486f08576b7638bb224257caaf042ce20763ac';
+      var DOMAIN = 'booklux.ai';
+      var HEADERS = { 'Content-Type': 'application/json', 'X-Token': TOKEN, 'X-Domain': DOMAIN };
+
+      // 3. Handle signup only
+      document.addEventListener('submit', function(e) {
+        var form = e.target.closest('form[data-backend="signup"]');
+        if (!form) return;
+        e.preventDefault();
+        
+        var data = {};
+        new FormData(form).forEach(function(v, k) { data[k] = v; });
+
+        var btn = form.querySelector('button[type="submit"]');
+        var originalText = '';
+        if (btn) {
+          originalText = btn.innerText;
+          btn.innerText = 'Sending...';
+          btn.disabled = true;
+        }
+
+
+        fetch(BACKEND + '/users', {
+          method: 'POST',
+          headers: HEADERS,
+          body: JSON.stringify(data)
+        }).then(function(r) { return r.json(); }).then(function(res) {
+          if (res.success) {
+            var msg = form.querySelector('[data-success]');
+            if (msg) { msg.style.display = 'block'; }
+            form.reset();
+            if (btn) btn.style.display = 'none';
+          } else {
+            alert(res.error || 'Failed to sign up');
+            if (btn) { btn.innerText = originalText; btn.disabled = false; }
+          }
+        }).catch(function(){
+          alert('Network error occurred');
+          if (btn) { btn.innerText = originalText; btn.disabled = false; }
+        });
+      });
+    })();
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | test-yan-22 - Luxury AI Concierge</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --color-primary: #ffffff;
+            --color-primary-dark: #f0f0f0;
+            --color-background: #0a0a0a;
+            --color-surface: #141414;
+            --color-text: #f5f5f5;
+            --color-text-muted: #888888;
+            --color-border: #262626;
+            --color-accent: #c5a059;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--color-background);
+            color: var(--color-text);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--color-primary);
+            line-height: 1.1;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text);
+        }
+
+        .btn-cta {
+            background: var(--color-primary);
+            color: var(--color-background);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-cta:hover {
+            background: var(--color-primary-dark);
+            opacity: 1;
+        }
+
+        /* Auth Layout */
+        main {
+            padding: 160px 20px 120px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 2.5rem;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-text {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+        }
+
+        /* Tabs */
+        .tab-system {
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
